@@ -2,7 +2,7 @@ let mainContainer = document.querySelector(".mainContainer")
 let singleContainer = document.querySelector(".singleContainer")
 let flagContainer = document.querySelector(".flagContainer")
 
-const ENDPOINT = "https://gist.githubusercontent.com/zulfidly/c9013ce66093dcc0cd594acd17fb5d14/raw/0bd3fd3e01f90c6e2047b5188c1011c9fe12772f/CountriesOfTheWorld";
+const ENDPOINT = "https://gist.githubusercontent.com/zulfidly/c9013ce66093dcc0cd594acd17fb5d14/raw/5d58c184c16c77d8fbc2cbf450a3e4c57a0ac2bd/CountriesOfTheWorld";
 
 window.addEventListener("load", async() => {
     getCountries();
@@ -17,7 +17,7 @@ async function getCountries() {
     data.forEach((obj, ind) => {
         displayAllCountries (data[ind].name, data[ind].capital, data[ind].flag_url)
     });
-    // displayAllCountries (data[0].name, data[0].capital, data[0].flag_url)
+    displayAllCountries (data[0].name, data[0].capital, data[0].flag_url)
     // displayAllCountries (data[1].name, data[1].capital, data[1].flag_url)
 }
 function displayAllCountries(name, capital, flagImgUrl) {

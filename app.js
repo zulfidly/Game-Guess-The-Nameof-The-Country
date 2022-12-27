@@ -63,7 +63,6 @@ function updateWord(letterClicked) {
         numOfTries = numOfTries - 1;
         console.log(numOfTries)
         checkNumOfTries(numOfTries);
-
     }
 
     liveArrWordGlobal.forEach((obj, ind)=> {

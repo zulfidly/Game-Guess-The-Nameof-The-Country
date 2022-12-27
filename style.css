@@ -63,7 +63,6 @@ body {
 }
 .vowel, .guessCorrectly {
     transition: all 0.7s ease-out;
-
     opacity: 1;
 }
 .spaceNotToGuess{
