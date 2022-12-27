@@ -1,0 +1,170 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;  /*Hide scrollbar for Firefox */
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: beige;
+}
+.menu{
+    width: 100%;
+}
+.a-to-zCtnr {
+    gap: 10px;
+    width: 800px;
+}
+.a-to-z {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    border: 1px solid rgb(196, 190, 190);
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+.a-to-z:hover {
+    background-color: rgb(190, 186, 186);
+}
+.letterBox {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(228, 222, 222);
+    font-weight: 500;
+    border-radius: 8px;
+    border: 1px solid rgb(196, 190, 190);
+    user-select: none;
+    /* cursor: pointer; */
+/* display: none; */
+}
+.unGuessed {
+    /* border: 1px dotted black; */
+    opacity: 0;
+}
+.vowel, .guessCorrectly {
+    transition: all 0.7s ease-out;
+
+    opacity: 1;
+}
+.spaceNotToGuess{
+    width: 15px;
+    height: 15px;
+    background-color: transparent;
+}
+.letterToGuessCtnr {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.hint {
+    letter-spacing: 0.6px;
+}
+.gameSection {
+    min-width: 600px;
+    min-height: 380px;
+    padding: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    margin: 10px;
+    border-radius: 10px;
+    gap: 10px;
+}
+.flagContainer {
+    width: 350px;
+    height:auto;
+}
+.flagContainer > img {
+    width: 100%;
+    height: auto;
+    border-radius: 7px;
+    user-select: none;
+}
+.flexRowCenter {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+
+}
+.contentNotAvailable {
+    color: rgb(67, 67, 148);
+    font-weight: 600;
+    font-size: 250%;
+    text-align: center;
+    padding: 10px;
+    display: none;
+}
+.gap {
+    gap: 10px;
+}
+.answers{
+    width: 200px;
+    height: 30px;
+    text-align: right;
+    cursor: pointer;
+    text-decoration: none;
+    color: rgb(75, 67, 67);
+    bottom: 10px;
+    right: 10px;
+    background-color: rgb(191, 221, 191);
+    border-radius: 10px;
+}
+.infoBoard{
+    display: flex;
+    flex-flow: column nowrap;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+}
+.tryAgainCtnr {
+    width: 98vw;
+    height: 98vh;
+    position: fixed;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    background-color: lightblue;
+    opacity: 0.95;
+    
+    /* display: flex; */
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+.tryAgainBtn {
+    width: 200px;
+    height: 100px;
+    font-size: 17px;
+    user-select: none;
+
+}
+.niceAttempt {
+    font-size: 50px;
+}
