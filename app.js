@@ -16,11 +16,21 @@ window.addEventListener("load", async() => {
     }
     loadCountries();
 })
+let letterPicked = "";
+let indexOfLetterPicked;
+a_to_z.forEach((obj, ind, y) => {
+    obj.addEventListener("click", () => {
+        letterPicked = obj.textContent;
+        indexOfLetterPicked = ind;
+        // console.log(obj, ind, y, obj.textContent, typeof obj.textContent)
+        updateWord(obj.textContent)
+        highlightRevealedLetters(ind)
+        setTimeout(delayRemoveListener, 1500)
 
-a_to_z.forEach(n => n.addEventListener("click", () => {
-    // console.log(n.textContent)
-    updateWord(n.textContent)
-}))
+        console.log(document.querySelectorAll(".guessCorrectly"))
+    })
+    obj.addEventListener("click", soundKontrol);
+})
 
 
 async function loadCountries() {
@@ -48,15 +58,32 @@ function gameSect(chosen) {
 function revealVowels(indletter) {
     console.log(liveArrWordGlobal, indletter)
     liveArrWordGlobal.forEach((obj, ind)=> {
+        x = indletter.children[ind].firstChild
+
         if(liveArrWordGlobal[ind]=="A" || liveArrWordGlobal[ind]=="E" || liveArrWordGlobal[ind]=="I" || liveArrWordGlobal[ind]=="O" || liveArrWordGlobal[ind]=="U") {
-            x = indletter.children[ind].firstChild
             x.classList.add("vowel")
             x.classList.remove("unGuessed")
+
+            document.querySelectorAll(".a-to-z").forEach((q, w) => {
+                if(q.textContent == liveArrWordGlobal[ind]){
+                    // console.log(q.textContent, w)
+                    highlightRevealedLetters(w)
+                }
+            })
         }
     })
+    document.querySelectorAll("p.highlightKeyBoard").forEach((x) => {
+        x.removeEventListener("click", soundKontrol)
+    })
 }
-function updateWord(letterClicked) {
-    if(liveArrWordGlobal.indexOf(letterClicked) !== -1) {
+function highlightRevealedLetters(x) { //onkeyboard
+    document.querySelectorAll(".a-to-z")[x].classList.add("highlightKeyBoard")
+}
+function delayRemoveListener() {
+    document.querySelectorAll(".a-to-z")[indexOfLetterPicked].removeEventListener('click', soundKontrol)
+}
+function soundKontrol() {
+    if(liveArrWordGlobal.indexOf(letterPicked) !== -1) {
         document.querySelector(".correctGuess").play();
     } else {
         document.querySelector(".wrongGuess").play();
@@ -64,7 +91,13 @@ function updateWord(letterClicked) {
         console.log(numOfTries)
         checkNumOfTries(numOfTries);
     }
-
+    if(document.querySelector("p.unGuessed") == null || document.querySelector("p.unGuessed") == undefined) {
+        console.log("You guessed Correct")
+        document.querySelector(".gameCompleted").play();
+        setTimeout(delayReload, 1500)
+    }
+}
+function updateWord(letterClicked) {
     liveArrWordGlobal.forEach((obj, ind)=> {
         if(liveArrWordGlobal[ind]==letterClicked) {
             x = document.querySelector(".letterToGuessCtnr").children[ind].firstChild
@@ -72,11 +105,6 @@ function updateWord(letterClicked) {
             x.classList.remove("unGuessed")
         }
     })
-    if(document.querySelector("p.unGuessed") == null || document.querySelector("p.unGuessed") == undefined) {
-        console.log("You guessed Perfect")
-        document.querySelector(".gameCompleted").play();
-        setTimeout(delayReload, 1500)
-    }
 }
 function checkNumOfTries(x) {
     document.querySelector(".triesLeft").textContent = x;
@@ -116,7 +144,7 @@ function lettersToGuess(name) {
             indletter.append(letter)
         }
     }
-    console.log(indletter)
+    // console.log(indletter)
     revealVowels(indletter)
     return indletter;
 }
