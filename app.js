@@ -10,12 +10,14 @@ let numOfTries = 5;
 const ENDPOINT = "https://gist.githubusercontent.com/zulfidly/c9013ce66093dcc0cd594acd17fb5d14/raw/268e138d04ab0794e2bdbb45dfca655d8084a9a6/CountriesOfTheWorld";
 
 window.addEventListener("load", async() => {
-    if(screen.width <= 1000) {
-        document.querySelector(".mainDiv").style.display = "none"
-        document.querySelector(".contentNotAvailable").style.display = "block"
-    }
+    // if(screen.width <= 1000) {
+    //     document.querySelector(".mainDiv").style.display = "none"
+    //     document.querySelector(".contentNotAvailable").style.display = "block"
+    // }
     loadCountries();
 })
+
+
 let letterPicked = "";
 let indexOfLetterPicked;
 a_to_z.forEach((obj, ind, y) => {
@@ -75,10 +77,30 @@ function revealVowels(indletter) {
     document.querySelectorAll("p.highlightKeyBoard").forEach((x) => {
         x.removeEventListener("click", soundKontrol)
     })
+
+
 }
 function highlightRevealedLetters(x) { //onkeyboard
     document.querySelectorAll(".a-to-z")[x].classList.add("highlightKeyBoard")
+
+    document.querySelectorAll(".highlightKeyBoard").forEach((v) => v.addEventListener("click", () => {
+        console.log(v)
+        built = "p." + v.textContent;
+        let y = document.querySelectorAll(`${built}`);
+
+        y.forEach((q) => {
+            q.classList.add("bumpLetter")
+        })
+        // console.log("y:", y ,v.textContent)
+    }))
+    setTimeout(removeBumpLetter, 810)
+    function removeBumpLetter() {
+        document.querySelectorAll("p.bumpLetter").forEach((xx) => {
+            xx.classList.remove("bumpLetter")
+        })
+    }
 }
+
 function delayRemoveListener() {
     document.querySelectorAll(".a-to-z")[indexOfLetterPicked].removeEventListener('click', soundKontrol)
 }
@@ -127,9 +149,10 @@ function lettersToGuess(name) {
     for(i=0; i<arr.length; i++) {
         if(arr[i] !== " ") {
             let letter = document.createElement("p");
-            letter.setAttribute('class', "unGuessed")
+            letter.setAttribute('class', "gameLetter unGuessed")
+            letter.classList.add(arr[i])
             letter.append(arr[i])
-
+            
             let letterBox = document.createElement("section");
             letterBox.setAttribute('class', "letterBox");
             letterBox.append(letter)

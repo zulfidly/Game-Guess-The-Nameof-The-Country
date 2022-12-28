@@ -10,21 +10,34 @@ body::-webkit-scrollbar {
     display: none;
 }
 body {
+    background-color: beige;
+}
+.mainDiv {
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: column nowrap;
     justify-content: space-evenly;
     align-items: center;
-    background-color: beige;
+    /*position default*/
+    transform: translate(-50%, -50%);
+    position: fixed; 
+    top: 50%;
+    left: 50%;
 }
-.menu{
-    width: 100%;
+h2{
+    text-align: center;
 }
 .a-to-zCtnr {
-    gap: 10px;
-    width: 800px;
+    gap: 7px;
+    width: 400px; /*800px */
+    height: auto;
+    margin-bottom: 40px;
 }
+.gap {
+    gap: 7px;
+}
+
 .a-to-z {
     width: 50px;
     height: 50px;
@@ -43,7 +56,7 @@ body {
     background-color: rgb(190, 186, 186);
 }
 .a-to-z.highlightKeyBoard {
-    background-color: rgb(172, 170, 170);
+    background-color: beige;
     cursor: grab;
 }
 .letterBox {
@@ -60,13 +73,19 @@ body {
     user-select: none;
 }
 .unGuessed {
-    /* border: 1px dotted black; */
     opacity: 0;
 }
+.gameLetter {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+    font-size: 18px;
+}
 .vowel, .guessCorrectly {
-    transition: all 1s ease-out;
+    transition: opacity 1s ease-out;
     opacity: 1;
-
 }
 .spaceNotToGuess{
     width: 15px;
@@ -75,7 +94,7 @@ body {
 }
 .letterToGuessCtnr {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
     gap: 5px;
@@ -84,21 +103,20 @@ body {
     letter-spacing: 0.6px;
 }
 .gameSection {
-    min-width: 600px;
-    min-height: 380px;
-    padding: 20px;
+    width: 390px; /*min-width: 700px;*/
+    min-height: 400px;
+    padding: 15px;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     background-color: lightgray;
-    margin: 10px;
+    margin: 10px 0px;
     border-radius: 10px;
-    gap: 10px;
 }
 .flagContainer {
-    width: 350px;
-    height:auto;
+    width: 350px; /*400px*/
+    height: auto;
 }
 .flagContainer > img {
     width: 100%;
@@ -111,7 +129,6 @@ body {
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
-
 }
 .contentNotAvailable {
     color: rgb(67, 67, 148);
@@ -120,9 +137,6 @@ body {
     text-align: center;
     padding: 10px;
     display: none;
-}
-.gap {
-    gap: 10px;
 }
 .answers{
     width: 200px;
@@ -142,6 +156,7 @@ body {
     position: fixed;
     bottom: 15px;
     right: 15px;
+    z-index: 2;
 }
 .tryAgainCtnr {
     width: 98vw;
@@ -150,7 +165,7 @@ body {
     transform: translate(-50%,-50%);
     top: 50%;
     left: 50%;
-    z-index: 2;
+    z-index: 3;
     background-color: lightblue;
     opacity: 0.95;
     
@@ -165,8 +180,38 @@ body {
     height: 100px;
     font-size: 17px;
     user-select: none;
-
 }
 .niceAttempt {
     font-size: 50px;
+}
+@keyframes bump {
+    0%      { scale: 1;  }
+    50%     { scale: 1.5; color: rgb(49, 36, 126);}
+    100%    { scale: 1;   }
+}
+.bumpLetter {
+    animation-duration: 0.35s;
+    animation-name: bump;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+    animation-iteration-count: 2 ;
+}
+
+@media screen and (min-width: 1000px) {
+    .a-to-zCtnr {
+        width: 800px; /*800px */
+    }
+    .flagContainer {
+        width: 400px; /*400px*/
+    }
+    .mainDiv {
+        /*position default*/
+        position: static; 
+        transform: translate(0%, 0%);
+        top: 0%;
+        left: 0%;
+    }
+    .gameSection {
+        min-width: 700px; /*min-width: 700px;*/
+    }    
 }
