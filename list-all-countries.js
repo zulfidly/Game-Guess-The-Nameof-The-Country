@@ -17,7 +17,7 @@ async function getCountries() {
     data.forEach((obj, ind) => {
         displayAllCountries (data[ind].name, data[ind].capital, data[ind].flag_url)
     });
-    displayAllCountries (data[0].name, data[0].capital, data[0].flag_url)
+    // displayAllCountries (data[0].name, data[0].capital, data[0].flag_url)
     // displayAllCountries (data[1].name, data[1].capital, data[1].flag_url)
 }
 function displayAllCountries(name, capital, flagImgUrl) {
