@@ -37,6 +37,7 @@ h3{
     position: sticky;
     top: 0px;
     background-color:transparent;
+    user-select: none;
 }
 .a-to-zCtnr {
     gap: 5px;
@@ -111,6 +112,7 @@ h3{
 }
 .hint {
     letter-spacing: 0.6px;
+    user-select: none;
 }
 .gameSection {
     width: 390px; /*min-width: 700px;*/
@@ -151,7 +153,6 @@ h3{
 .answers{
     width: 180px;
     height: 30px;
-    cursor: pointer;
     text-decoration: none;
     color: rgb(75, 67, 67);
     bottom: 10px;
@@ -160,10 +161,19 @@ h3{
     border-radius: 10px;
     letter-spacing: 0.6px;
 }
+.github {
+    align-items: center;
+    width: 37px;
+    height: auto;
+    border-radius: 8px;
+    user-select: none;
+} .github > img { width: 100%; }
+
 .infoBoard{
     display: flex;
     flex-flow: row nowrap; /*column nowrap;*/
     gap: 10px;
+    user-select: none;
 }
 .tryAgainCtnr {
     width: 98vw;
