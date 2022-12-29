@@ -29,7 +29,7 @@ a_to_z.forEach((obj, ind, y) => {
         highlightRevealedLetters(ind)
         setTimeout(delayRemoveListener, 1500)
 
-        console.log(document.querySelectorAll(".guessCorrectly"))
+        // console.log(document.querySelectorAll(".guessCorrectly"))
     })
     obj.addEventListener("click", soundKontrol);
 })
@@ -58,7 +58,7 @@ function gameSect(chosen) {
     gameSection.append(flagctnr, lettersToGuess(chosen.name), displayHint(chosen.capital))
 }
 function revealVowels(indletter) {
-    console.log(liveArrWordGlobal, indletter)
+    // console.log(liveArrWordGlobal, indletter)
     liveArrWordGlobal.forEach((obj, ind)=> {
         x = indletter.children[ind].firstChild
 
@@ -77,8 +77,6 @@ function revealVowels(indletter) {
     document.querySelectorAll("p.highlightKeyBoard").forEach((x) => {
         x.removeEventListener("click", soundKontrol)
     })
-
-
 }
 function highlightRevealedLetters(x) { //onkeyboard
     document.querySelectorAll(".a-to-z")[x].classList.add("highlightKeyBoard")
@@ -93,12 +91,13 @@ function highlightRevealedLetters(x) { //onkeyboard
         })
         // console.log("y:", y ,v.textContent)
     }))
-    setTimeout(removeBumpLetter, 810)
-    function removeBumpLetter() {
-        document.querySelectorAll("p.bumpLetter").forEach((xx) => {
-            xx.classList.remove("bumpLetter")
-        })
-    }
+    setTimeout(removeBumpLetter, 710)
+}
+function removeBumpLetter() {
+    document.querySelectorAll("p.bumpLetter").forEach((xx) => {
+        xx.classList.remove("bumpLetter")
+    })
+    document.querySelector(".triesLeft").classList.remove("bumpLetter")
 }
 
 function delayRemoveListener() {
@@ -110,8 +109,10 @@ function soundKontrol() {
     } else {
         document.querySelector(".wrongGuess").play();
         numOfTries = numOfTries - 1;
-        console.log(numOfTries)
+        // console.log(numOfTries)
         checkNumOfTries(numOfTries);
+        document.querySelector(".triesLeft").classList.add("bumpLetter")
+        setTimeout(removeBumpLetter,710)
     }
     if(document.querySelector("p.unGuessed") == null || document.querySelector("p.unGuessed") == undefined) {
         console.log("You guessed Correct")
@@ -133,6 +134,9 @@ function checkNumOfTries(x) {
     if(x == 0) {
         tryAgainCtnr.style.display = "flex"
         document.querySelector(".gameEnded").play();
+    } else if (x == 1) {
+        document.querySelector(".triesLeft").previousSibling.textContent = '';
+        document.querySelector(".triesLeft").textContent = 'Last Chance !'
     }
     tryAgainBtn.addEventListener("click", () => {
         location.reload()
