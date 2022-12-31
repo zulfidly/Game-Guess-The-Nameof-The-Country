@@ -34,6 +34,7 @@ h3{
     border-radius: 10px;
     margin: 0 0 15px 0;
     text-align: center;
+    color: rgb(75, 67, 67);
     position: sticky;
     top: 0px;
     background-color:transparent;
@@ -59,6 +60,8 @@ h3{
     background-color: lightgray;
     border: 1px solid rgb(196, 190, 190);
     font-weight: 500;
+    color: rgb(75, 67, 67);
+
     border-radius: 8px;
     cursor: pointer;
     user-select: none;
@@ -71,7 +74,7 @@ h3{
     cursor: grab;
 }
 .letterBox {
-    width: 35px; /*40px*/
+    width: 25px; /*40px*/
     height: 40px;
     display: flex;
     flex-flow: row nowrap;
@@ -93,13 +96,14 @@ h3{
     justify-content: center;    
     align-items: center;
     font-size: 18px;
+    color: rgb(75, 67, 67);
 }
 .vowel, .guessCorrectly {
     transition: opacity 1s ease-out;
     opacity: 1;
 }
 .spaceNotToGuess{
-    width: 15px;
+    width: 25px;
     height: 15px;
     background-color: transparent;
 }
@@ -127,28 +131,44 @@ h3{
     border-radius: 10px;
 }
 .flagContainer {
-    max-width: 350px; /*max-width:400px*/
-    min-height: 230px;
+    width: 350px; 
+    min-height: 240px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
 }
-.flagContainer > img {
-    width: 100%;
-    min-height: 230px;
-    border-radius: 7px;
-    user-select: none;
+.guessNumberWhat {
+    height: auto;
+    width: auto;
+    padding: 1px 10px;
+    background-color: white;
+    opacity: 0.75;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+.overallScore {
+    height: auto;
+    width: auto;
+    padding: 1px 10px;
+    background-color: white;
+    opacity: 0.75;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    font-size: 14px;
 }
 .flexRowCenter {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
-}
-.contentNotAvailable {
-    color: rgb(67, 67, 148);
-    font-weight: 600;
-    font-size: 250%;
-    text-align: center;
-    padding: 10px;
-    display: none;
 }
 .answers{
     width: 180px;
@@ -160,6 +180,10 @@ h3{
     background-color: rgb(191, 221, 191);
     border-radius: 10px;
     letter-spacing: 0.6px;
+}
+.lastChanceQuote {
+    display: none;
+    color: rgb(75, 67, 67);
 }
 .github {
     align-items: center;
@@ -186,8 +210,6 @@ h3{
     color: rgb(75, 67, 67);
     background-color: rgb(191, 221, 191);;
     opacity: 0.97;
-    
-    /* display: flex; */
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
@@ -201,13 +223,31 @@ h3{
     border-radius: 15px;
     color: rgb(75, 67, 67);
     letter-spacing: 0.7px;
+    cursor: pointer;
 }
 .niceAttempt {
     font-size: 50px;
 }
+.forThoseWhoTriedItAll {
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    z-index: 4;
+    color: rgb(54, 45, 45);
+    font-size: 200%;
+    font-weight: 600;
+    /* background-color: rgb(192, 51, 81);; */
+    opacity: 1;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    
+    display: none;
+}
 @keyframes bump {
     0%      { scale: 1;  }
-    50%     { scale: 1.5; color: rgb(49, 36, 126);}
+    50%     { scale: 1.5; color: rgb(104, 90, 184);}
     100%    { scale: 1;   }
 }
 .bumpLetter {
@@ -215,7 +255,7 @@ h3{
     animation-name: bump;
     animation-fill-mode: forwards;
     animation-timing-function: linear;
-    animation-iteration-count: 2 ;
+    animation-iteration-count: 1 ;
 }
 
 @media screen and (min-width: 1000px) {
