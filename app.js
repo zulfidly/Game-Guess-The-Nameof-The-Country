@@ -22,10 +22,10 @@ window.addEventListener("load", async() => {
     // console.log(data, typeof data)
     initQWERTY();
     newGame(pickRandomCountry(dataGlobal));
-})
+}, {once:true})
 
-let letterPicked = "";
-let indexOfLetterPicked;
+let letterClicked;
+let indexOfLetterClicked;
 let objectPicked;
 function initQWERTY() {
     tryAgainBtn.addEventListener("click", listenerForContinueButtonOnly)
@@ -33,30 +33,23 @@ function initQWERTY() {
     a_to_z.forEach((obj, ind) => obj.addEventListener("click", () => {
         if(dataGlobal.length > 0) {
             objectPicked = obj;
-            // console.log(objectPicked)
-            letterPicked = obj.textContent;
-            indexOfLetterPicked = ind;    
+            letterClicked = obj.textContent;
+            indexOfLetterClicked = ind;    
             // console.log(obj, ind, y, obj.textContent, typeof obj.textContent)
-            updateWord(obj.textContent)
-            highlightRevealedLetters(ind)
             bumpLetterOnce();
-            // isWordGuessSuccessful();
-            setTimeout(removeListenercheckForMatch, 100)
-            setTimeout(removeListenerSoundKontrol, 150)
-            setTimeout(removeBumpLetter, 710)
-            // console.log(letterPicked)
-            } else {
-                return;
-            }
+        } else {
+            return;
+        }
     }))
 }
 function bumpLetterOnce() {
-    crossMatch = "p." + letterPicked;
+    crossMatch = "p." + letterClicked;
     document.querySelectorAll(crossMatch).forEach((x) => {
-        if(x.textContent == letterPicked) {
+        if(x.textContent == letterClicked) {
             x.classList.add("bumpLetter")
         }
     })
+    setTimeout(removeBumpLetter, 360)
 }
 function newGame(chosen) {
     numOfChances = 5;
@@ -112,10 +105,16 @@ function finalPage() {
     gameSection.style.backgroundPosition = "center center";
     gameSection.style.backgroundSize = "cover";
 
+    document.querySelector(".chancesLeftQuote").style.display = 'none';
+    document.querySelector(".triesLeft").style.display = 'none';
     document.querySelector(".lastChanceQuote").textContent = "Game Completed";
+    document.querySelector(".lastChanceQuote").style.display = 'flex';
+    document.querySelector(".lastChanceQuote").classList.add("bumpLetter");
 
-    a_to_z.forEach((obj, ind) => {
+a_to_z.forEach((obj, ind) => {
         obj.removeEventListener("click", soundKontrol);
+        obj.removeEventListener("click", highlightRevealedLettersOnQWERTY);
+        obj.removeEventListener("click", revealCorrectLetter);
         obj.removeEventListener("click", checkForMatch);
     })
 }
@@ -128,8 +127,7 @@ function pickRandomCountry() {
         chosenGlobal = chosen;
         liveArrWordGlobal = [...chosenGlobal.name.toUpperCase()]
         return chosen;    
-    } else {
-    }
+    } else { return;  }
 }
 function renewGameSection() {
     runningCountsPerAttempt += 1;
@@ -149,12 +147,14 @@ function renewGameSection() {
 
 function loadRemovableEventListeners() {
     a_to_z.forEach((obj, ind) => {
-        obj.addEventListener("click", soundKontrol);
-        obj.addEventListener("click", checkForMatch);
+        obj.addEventListener("click", soundKontrol, {once: true});
+        obj.addEventListener("click", highlightRevealedLettersOnQWERTY, {once: true});
+        obj.addEventListener("click", revealCorrectLetter, {once: true});
+        obj.addEventListener("click", checkForMatch, {once: true});
     })
 }
 function checkForMatch() {
-        if(liveArrWordGlobal.indexOf(letterPicked) !== -1) {
+        if(liveArrWordGlobal.indexOf(letterClicked) !== -1) {
             void(0);
         } else {
             numOfChances = numOfChances - 1;
@@ -215,16 +215,15 @@ function lettersToGuess(name) {
     revealVowels(indletter)
     return indletter;
 }
-function updateWord(letterClicked) {
+function revealCorrectLetter() {
     liveArrWordGlobal.forEach((obj, ind)=> {
         if(liveArrWordGlobal[ind]==letterClicked) {
             x = document.querySelector(".letterToGuessCtnr").children[ind].firstChild
             x.classList.add("guessCorrectly")
             x.classList.remove("unGuessed")
-        }
+        } else { void(0); }
     }) 
 }
-
 function displayHint(capital) {
     let hint = document.createElement("p");
     hint.setAttribute('class', "hint");
@@ -232,7 +231,7 @@ function displayHint(capital) {
     return hint;
 }
 function soundKontrol() {
-    if(liveArrWordGlobal.indexOf(letterPicked) !== -1) {
+    if(liveArrWordGlobal.indexOf(letterClicked) !== -1) {
         document.querySelector(".correctGuess").play();
     } else {
         document.querySelector(".wrongGuess").play();
@@ -243,9 +242,6 @@ function removeBumpLetter() {
         xx.classList.remove("bumpLetter")
     })
 }
-function removeListenercheckForMatch() {
-    objectPicked.removeEventListener('click', checkForMatch)
-}
 function removeListenerSoundKontrol() {
     objectPicked.removeEventListener('click', soundKontrol)
 }
@@ -254,14 +250,14 @@ function revealVowels(indletter) {
     // console.log(liveArrWordGlobal, indletter)
     liveArrWordGlobal.forEach((obj, ind)=> {
         x = indletter.children[ind].firstChild
-
-        if(liveArrWordGlobal[ind]=="A" || liveArrWordGlobal[ind]=="E" || liveArrWordGlobal[ind]=="I" || liveArrWordGlobal[ind]=="O" || liveArrWordGlobal[ind]=="U" || liveArrWordGlobal[ind]=="-" || liveArrWordGlobal[ind]=="&") {
+        y = liveArrWordGlobal[ind];
+        if( y=="A" || y=="E" || y=="I" || y=="O" || y=="U" || y=="-" || y=="&") {
             x.classList.add("vowel")
             x.classList.remove("unGuessed")
-            document.querySelectorAll(".a-to-z").forEach((q, w) => {
+            a_to_z.forEach((q, w) => {
                 if(q.textContent == liveArrWordGlobal[ind]){
                     // console.log(q.textContent, w)
-                    highlightRevealedLetters(w)
+                    q.classList.add("highlightKeyBoard")
                 }
             })
         }
@@ -274,7 +270,9 @@ function removeListenersForRevealedVowels() {
         x.removeEventListener("click", checkForMatch)
     })
 }
-function highlightRevealedLetters(x) { //onkeyboard
-    document.querySelectorAll(".a-to-z")[x].classList.add("highlightKeyBoard");
+function highlightRevealedLettersOnQWERTY() { //onkeyboard 
+    if(a_to_z[indexOfLetterClicked]) {
+        a_to_z[indexOfLetterClicked].classList.add("highlightKeyBoard")
+    } else { return; } ;
 }
 

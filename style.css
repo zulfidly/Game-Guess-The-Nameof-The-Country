@@ -224,7 +224,7 @@ h3{
 .forThoseWhoTriedItAll {
     position: absolute;
     transform: translate(-50%,-50%);
-    top: 50%;
+    top: 53%;
     left: 50%;
     z-index: 4;
     color: rgb(54, 45, 45);
@@ -237,9 +237,9 @@ h3{
     display: none;
 }
 @keyframes bump {
-    0%      { scale: 1;  }
-    50%     { scale: 1.5; color: rgb(104, 90, 184);}
-    100%    { scale: 1;   }
+    0%      { transform: scale(1);  }
+    50%     { transform: scale(1.5); color: rgb(104, 90, 184);}
+    100%    { transform: scale(1);   }
 }
 .bumpLetter {
     animation-duration: 0.35s;
