@@ -1,19 +1,13 @@
 let gameSection = document.querySelector(".gameSection")
-// let letters = document.querySelector(".letters")
-// let flagContainer = document.querySelector(".flagContainer")
 let a_to_z = document.querySelectorAll(".a-to-z")
-// let vowel = document.querySelector(".vowel")
 let tryAgainCtnr = document.querySelector(".tryAgainCtnr")
 let tryAgainBtn = document.querySelector(".tryAgainBtn")
 let triesLeft = document.querySelector(".triesLeft")
 let guessNumberWhat = document.querySelector(".guessNumberWhat")
 let overallScore = document.querySelector(".overallScore")
-let oriDataLength, chosenGlobal, dataGlobal, liveArrWordGlobal, indexOfCountryInArrayGlobal;
-let numOfChances; 
-let runningCountsPerAttempt = 0;
-let numOfCorrectGuess = 0;
 const ENDPOINT = "https://gist.githubusercontent.com/zulfidly/c9013ce66093dcc0cd594acd17fb5d14/raw/8896c92b3fa07fe8adf131349b27060115645cac/CountriesOfTheWorld";
 
+let oriDataLength, dataGlobal;
 window.addEventListener("load", async() => {
     const response = await fetch(ENDPOINT)
     data = await response.json(); // structure response into JSON format
@@ -24,9 +18,7 @@ window.addEventListener("load", async() => {
     newGame(pickRandomCountry(dataGlobal));
 }, {once:true})
 
-let letterClicked;
-let indexOfLetterClicked;
-let objectPicked;
+let objectPicked, letterClicked, indexOfLetterClicked;
 function initQWERTY() {
     tryAgainBtn.addEventListener("click", listenerForContinueButtonOnly)
 
@@ -43,7 +35,7 @@ function initQWERTY() {
     }))
 }
 function bumpLetterOnce() {
-    crossMatch = "p." + letterClicked;
+    let crossMatch = "p." + letterClicked;
     document.querySelectorAll(crossMatch).forEach((x) => {
         if(x.textContent == letterClicked) {
             x.classList.add("bumpLetter")
@@ -51,9 +43,11 @@ function bumpLetterOnce() {
     })
     setTimeout(removeBumpLetter, 360)
 }
+
+let numOfChances; 
 function newGame(chosen) {
     numOfChances = 5;
-    loadRemovableEventListeners();
+    attachModularListenersToQWERTY();
 
     document.querySelector(".chancesLeftQuote").style.display = 'flex';
     triesLeft.style.display = "flex";
@@ -84,55 +78,22 @@ function loadNewCountry() {
         return;
     }
 }
-function finalPage() {
-    let lastQuote1 = document.createElement("p");
-    lastQuote1.textContent = "Thank You"; 
-    
-    let lastQuote2 = document.createElement("p");
-    lastQuote2.style.fontSize = "large"
-    lastQuote2.textContent = "Final Score : " + numOfCorrectGuess + "/" + oriDataLength; 
-
-    let lastQuoteCtnr = document.createElement("div")
-    lastQuoteCtnr.setAttribute("class", "forThoseWhoTriedItAll")
-    lastQuoteCtnr.style.display = "flex";
-    lastQuoteCtnr.append(lastQuote1, lastQuote2)
-
-    gameSection.append(lastQuoteCtnr)
-    document.querySelector("h3").remove();
-
-    gameSection.style.backgroundImage = `url(https://upload.wikimedia.org/wikipedia/commons/b/b2/WhiteCat.jpg)`;
-    gameSection.style.backgroundRepeat= "no-repeat";
-    gameSection.style.backgroundPosition = "center center";
-    gameSection.style.backgroundSize = "cover";
-
-    document.querySelector(".chancesLeftQuote").style.display = 'none';
-    document.querySelector(".triesLeft").style.display = 'none';
-    document.querySelector(".lastChanceQuote").textContent = "Game Completed";
-    document.querySelector(".lastChanceQuote").style.display = 'flex';
-    document.querySelector(".lastChanceQuote").classList.add("bumpLetter");
-
-a_to_z.forEach((obj, ind) => {
-        obj.removeEventListener("click", soundKontrol);
-        obj.removeEventListener("click", highlightRevealedLettersOnQWERTY);
-        obj.removeEventListener("click", revealCorrectLetter);
-        obj.removeEventListener("click", checkForMatch);
-    })
-}
+let indexOfCountryInDataGlobal, chosenGlobal, liveArrWordGlobal;
 function pickRandomCountry() {
     if(dataGlobal.length > 0) {
-        indexOfCountryInArrayGlobal = Math.floor(Math.random() * dataGlobal.length)
+        indexOfCountryInDataGlobal = Math.floor(Math.random() * dataGlobal.length)
         // console.log("IndexArr", indexOfCountryInArrayGlobal, dataGlobal[indexOfCountryInArrayGlobal].name)
-        // console.log("@@@@@@@@@@",dataGlobal)
-        let chosen = dataGlobal[indexOfCountryInArrayGlobal];
-        chosenGlobal = chosen;
+        chosenGlobal = dataGlobal[indexOfCountryInDataGlobal];
         liveArrWordGlobal = [...chosenGlobal.name.toUpperCase()]
-        return chosen;    
+        return chosenGlobal;    
     } else { return;  }
 }
+
+let runningCountsPerAttempt = 0;
 function renewGameSection() {
     runningCountsPerAttempt += 1;
     if(dataGlobal.length > 0) {
-        dataGlobal.splice(indexOfCountryInArrayGlobal, 1);
+        dataGlobal.splice(indexOfCountryInDataGlobal, 1);
         // console.log("afterSpliced",dataGlobal)
         document.querySelector(".triesLeft").textContent = 5;
         document.querySelector(".flagContainer").remove();
@@ -144,8 +105,7 @@ function renewGameSection() {
         x.classList.remove("highlightKeyBoard")
     })
 }
-
-function loadRemovableEventListeners() {
+function attachModularListenersToQWERTY() {
     a_to_z.forEach((obj, ind) => {
         obj.addEventListener("click", soundKontrol, {once: true});
         obj.addEventListener("click", highlightRevealedLettersOnQWERTY, {once: true});
@@ -153,6 +113,16 @@ function loadRemovableEventListeners() {
         obj.addEventListener("click", checkForMatch, {once: true});
     })
 }
+function detachModularListenersFromQWERTY() {
+    a_to_z.forEach((obj, ind) => {
+        obj.removeEventListener("click", soundKontrol);
+        obj.removeEventListener("click", highlightRevealedLettersOnQWERTY);
+        obj.removeEventListener("click", revealCorrectLetter);
+        obj.removeEventListener("click", checkForMatch);
+    })
+}
+
+let numOfCorrectGuess = 0;
 function checkForMatch() {
         if(liveArrWordGlobal.indexOf(letterClicked) !== -1) {
             void(0);
@@ -163,7 +133,9 @@ function checkForMatch() {
             setTimeout(removeBumpLetter,350)
         }    
         // console.log("numOfChances", numOfChances)
-        if(document.querySelector("p.unGuessed") == null || document.querySelector("p.unGuessed") == undefined) {
+        // if(document.querySelector("p.unGuessed") == null || document.querySelector("p.unGuessed") == undefined) {
+        if(!(document.querySelector("p.unGuessed"))) {
+            detachModularListenersFromQWERTY();
             console.log("You guessed Correcttttt")
             numOfCorrectGuess = numOfCorrectGuess + 1;
             document.querySelector(".gameCompleted").play();
@@ -245,7 +217,6 @@ function removeBumpLetter() {
 function removeListenerSoundKontrol() {
     objectPicked.removeEventListener('click', soundKontrol)
 }
-
 function revealVowels(indletter) {
     // console.log(liveArrWordGlobal, indletter)
     liveArrWordGlobal.forEach((obj, ind)=> {
@@ -274,5 +245,34 @@ function highlightRevealedLettersOnQWERTY() { //onkeyboard
     if(a_to_z[indexOfLetterClicked]) {
         a_to_z[indexOfLetterClicked].classList.add("highlightKeyBoard")
     } else { return; } ;
+}
+function finalPage() {
+    let lastQuote1 = document.createElement("p");
+    lastQuote1.textContent = "Thank You"; 
+    
+    let lastQuote2 = document.createElement("p");
+    lastQuote2.style.fontSize = "large"
+    lastQuote2.textContent = "Final Score : " + numOfCorrectGuess + "/" + oriDataLength; 
+
+    let lastQuoteCtnr = document.createElement("div")
+    lastQuoteCtnr.setAttribute("class", "forThoseWhoTriedItAll")
+    lastQuoteCtnr.style.display = "flex";
+    lastQuoteCtnr.append(lastQuote1, lastQuote2)
+
+    gameSection.append(lastQuoteCtnr)
+    document.querySelector("h3").remove();
+
+    gameSection.style.backgroundImage = `url(https://upload.wikimedia.org/wikipedia/commons/b/b2/WhiteCat.jpg)`;
+    gameSection.style.backgroundRepeat= "no-repeat";
+    gameSection.style.backgroundPosition = "center center";
+    gameSection.style.backgroundSize = "cover";
+
+    document.querySelector(".chancesLeftQuote").style.display = 'none';
+    document.querySelector(".triesLeft").style.display = 'none';
+    document.querySelector(".lastChanceQuote").textContent = "Game Completed";
+    document.querySelector(".lastChanceQuote").style.display = 'flex';
+    document.querySelector(".lastChanceQuote").classList.add("bumpLetter");
+
+    detachModularListenersFromQWERTY();
 }
 
