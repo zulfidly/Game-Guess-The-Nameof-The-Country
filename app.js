@@ -13,6 +13,7 @@ const ENDPOINT = "https://gist.githubusercontent.com/zulfidly/c9013ce66093dcc0cd
 
 let oriDataLengthGlobal, dataGlobal;
 window.addEventListener("load", async() => {
+    // localStorage.clear();
     if(localStorage.getItem("localStorage-dataGlobal") && localStorage.getItem("localStorage-PrevGameIndex")) {
         resumePrevGameCtnr.style.display = "flex"
         addListenerResumeGamePage();
@@ -27,6 +28,7 @@ async function fetchFreshData_StartGame() {
     dataGlobal = data;
     oriDataLengthGlobal = data.length
     // console.log(data, typeof data)
+    initQWERTY();
     newGame(pickRandomCountry(dataGlobal));
 }
 function prevGameDataIsAvailable() { //check localStorage variables
