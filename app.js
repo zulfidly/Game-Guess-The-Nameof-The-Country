@@ -5,19 +5,59 @@ let tryAgainBtn = document.querySelector(".tryAgainBtn")
 let triesLeft = document.querySelector(".triesLeft")
 let guessNumberWhat = document.querySelector(".guessNumberWhat")
 let overallScore = document.querySelector(".overallScore")
+let resumePrevGameCtnr = document.querySelector(".resumePrevGameCtnr")
+let resumeGameBtn = document.querySelector(".resumeGameBtn")
+let startNewGameBtn = document.querySelector(".startNewGameBtn")
+
 const ENDPOINT = "https://gist.githubusercontent.com/zulfidly/c9013ce66093dcc0cd594acd17fb5d14/raw/8896c92b3fa07fe8adf131349b27060115645cac/CountriesOfTheWorld";
 
-let oriDataLength, dataGlobal;
+let oriDataLengthGlobal, dataGlobal;
 window.addEventListener("load", async() => {
+    if(localStorage.getItem("localStorage-dataGlobal") && localStorage.getItem("localStorage-PrevGameIndex")) {
+        resumePrevGameCtnr.style.display = "flex"
+        addListenerResumeGamePage();
+    } else {
+        fetchFreshData_StartGame();
+        resumePrevGameCtnr.style.display = "none"
+    }
+}, {once:true})
+async function fetchFreshData_StartGame() {
     const response = await fetch(ENDPOINT)
     data = await response.json(); // structure response into JSON format
     dataGlobal = data;
-    oriDataLength = data.length
+    oriDataLengthGlobal = data.length
     // console.log(data, typeof data)
-    initQWERTY();
     newGame(pickRandomCountry(dataGlobal));
-}, {once:true})
-
+}
+function prevGameDataIsAvailable() { //check localStorage variables
+        dataGlobal = JSON.parse(localStorage.getItem("localStorage-dataGlobal"))
+        indexOfCountryInDataGlobal = localStorage.getItem("localStorage-PrevGameIndex") * 1;
+        numOfCorrectGuess = localStorage.getItem("localStorage-numOfCorrectGuess") * 1;
+        runningCountsPerAttempt = localStorage.getItem("localStorage-runningCountsPerAttempt") * 1;
+        oriDataLengthGlobal = localStorage.getItem("localStorage-oriDataLengthGlobal") * 1;
+}
+function addListenerResumeGamePage() {
+    resumeGameBtn.addEventListener("click", addListenerToResumeButton, {once:true})
+    startNewGameBtn.addEventListener("click", addListenerToStartNewGameButton, {once:true})
+}
+function addListenerToResumeButton() {
+    prevGameDataIsAvailable();
+    initQWERTY();
+    newGame(resumeFromLastCountry());
+    resumePrevGameCtnr.style.display = "none"
+    startNewGameBtn.removeEventListener("click", addListenerToStartNewGameButton);
+}
+function addListenerToStartNewGameButton() {
+    initQWERTY();
+    fetchFreshData_StartGame();
+    resumePrevGameCtnr.style.display = "none";
+    resumeGameBtn.removeEventListener("click", addListenerToResumeButton);
+}
+function resumeFromLastCountry() {
+    chosenGlobal = dataGlobal[indexOfCountryInDataGlobal];
+    liveArrWordGlobal = [...chosenGlobal.name.toUpperCase()]
+    return chosenGlobal;
+}
 let objectPicked, letterClicked, indexOfLetterClicked;
 function initQWERTY() {
     tryAgainBtn.addEventListener("click", listenerForContinueButtonOnly)
@@ -60,7 +100,7 @@ function newGame(chosen) {
 
     let correctguess = document.createElement("p");
     correctguess.setAttribute("class", "overallScore")
-    correctguess.textContent = "Total : " + numOfCorrectGuess + "/" + oriDataLength;
+    correctguess.textContent = "Total : " + numOfCorrectGuess + "/" + oriDataLengthGlobal;
 
     let guessNumber = document.createElement("p");
     guessNumber.setAttribute("class", "guessNumberWhat")
@@ -85,10 +125,20 @@ function pickRandomCountry() {
         // console.log("IndexArr", indexOfCountryInArrayGlobal, dataGlobal[indexOfCountryInArrayGlobal].name)
         chosenGlobal = dataGlobal[indexOfCountryInDataGlobal];
         liveArrWordGlobal = [...chosenGlobal.name.toUpperCase()]
+        storeDataToLocalStorage();
         return chosenGlobal;    
     } else { return;  }
 }
-
+function storeDataToLocalStorage() {
+    console.log(indexOfCountryInDataGlobal)
+    console.log(dataGlobal)
+    console.log(numOfCorrectGuess, runningCountsPerAttempt)
+    localStorage.setItem("localStorage-PrevGameIndex", indexOfCountryInDataGlobal.toString())
+    localStorage.setItem("localStorage-numOfCorrectGuess", numOfCorrectGuess.toString())
+    localStorage.setItem("localStorage-runningCountsPerAttempt", runningCountsPerAttempt.toString())
+    localStorage.setItem("localStorage-dataGlobal", JSON.stringify(dataGlobal))
+    localStorage.setItem("localStorage-oriDataLengthGlobal", oriDataLengthGlobal.toString())
+}
 let runningCountsPerAttempt = 0;
 function renewGameSection() {
     runningCountsPerAttempt += 1;
@@ -239,6 +289,8 @@ function removeListenersForRevealedVowels() {
     document.querySelectorAll(".highlightKeyBoard").forEach((x) => {
         x.removeEventListener("click", soundKontrol)
         x.removeEventListener("click", checkForMatch)
+        x.removeEventListener("click", highlightRevealedLettersOnQWERTY);
+        x.removeEventListener("click", revealCorrectLetter);
     })
 }
 function highlightRevealedLettersOnQWERTY() { //onkeyboard 
@@ -252,7 +304,7 @@ function finalPage() {
     
     let lastQuote2 = document.createElement("p");
     lastQuote2.style.fontSize = "large"
-    lastQuote2.textContent = "Final Score : " + numOfCorrectGuess + "/" + oriDataLength; 
+    lastQuote2.textContent = "Final Score : " + numOfCorrectGuess + "/" + oriDataLengthGlobal; 
 
     let lastQuoteCtnr = document.createElement("div")
     lastQuoteCtnr.setAttribute("class", "forThoseWhoTriedItAll")
