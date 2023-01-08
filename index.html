@@ -7,75 +7,91 @@
     <link rel="icon" type="image/x-icon" href="./asset/myFavIcon500px.png">
     <link rel="stylesheet" href="style.css">
     <title>Guess Country Name</title>
+    <script src="./declarations.js" defer></script> 
     <script src="./app.js" defer></script> 
+    <script src="./resultList.js" defer></script> 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
     </style>
 </head>
 <body class="flexRowCenter">
-<div class="mainDiv">
+    <!-- <button class="resultMenuBtn">View Result</button> -->
 
-    <section class="gameSection">
-        <h3>Guess The Name of The Country</h3>
-    </section>
-
-    <section class="a-to-zCtnr flexRowCenter">
-        <div class="gap flexRowCenter">
-            <p class="a-to-z">Q</p>
-            <p class="a-to-z">W</p>
-            <p class="a-to-z">E</p>
-            <p class="a-to-z">R</p>
-            <p class="a-to-z">T</p>
-            <p class="a-to-z">Y</p>
-            <p class="a-to-z">U</p>
-            <p class="a-to-z">I</p>
-            <p class="a-to-z">O</p>
-            <p class="a-to-z">P</p>
+    <div class="hamMenuIconCtnr flexRowCenter">
+        <img class="hamMenuIcon" src="./asset/icon-menu.svg" />
+    </div>
+    <div class="slideInPageCtnr">
+        <div class="closeMenuIconCtnr">
+            <img class="closeMenuIcon" src="./asset/icon-menu-close.svg" />
         </div>
-        <div class="gap flexRowCenter">
-            <p class="a-to-z">A</p>
-            <p class="a-to-z">S</p>
-            <p class="a-to-z">D</p>
-            <p class="a-to-z">F</p>
-            <p class="a-to-z">G</p>
-            <p class="a-to-z">H</p>
-            <p class="a-to-z">J</p>
-            <p class="a-to-z">K</p>
-            <p class="a-to-z">L</p>
+        <p style="font-style:italic; font-size:small;">*only 1 try per country <span style="font-style:normal">&#128517;</span></p>
+        <p style="text-decoration: underline"><br>Result list :</p>
+        <div class="ULctnr">
+            <ul class="resultListUL"></ul>        </div>
         </div>
-        <div class="gap flexRowCenter">
-            <p class="a-to-z">Z</p>
-            <p class="a-to-z">X</p>
-            <p class="a-to-z">C</p>
-            <p class="a-to-z">V</p>
-            <p class="a-to-z">B</p>
-            <p class="a-to-z">N</p>
-            <p class="a-to-z">M</p>
-            <a class="github flexRowCenter" href="https://github.com/zulfidly" target="_blank"><img src="./asset/github-logo.png" alt="github logo" /></a>
+    <div class="mainDiv">
+        <section class="gameSection">
+            <h3>Guess The Name of The Country</h3>
+        </section>
+        <section class="a-to-zCtnr flexRowCenter">
+            <div class="gap flexRowCenter">
+                <p class="a-to-z">Q</p>
+                <p class="a-to-z">W</p>
+                <p class="a-to-z">E</p>
+                <p class="a-to-z">R</p>
+                <p class="a-to-z">T</p>
+                <p class="a-to-z">Y</p>
+                <p class="a-to-z">U</p>
+                <p class="a-to-z">I</p>
+                <p class="a-to-z">O</p>
+                <p class="a-to-z">P</p>
+            </div>
+            <div class="gap flexRowCenter">
+                <p class="a-to-z">A</p>
+                <p class="a-to-z">S</p>
+                <p class="a-to-z">D</p>
+                <p class="a-to-z">F</p>
+                <p class="a-to-z">G</p>
+                <p class="a-to-z">H</p>
+                <p class="a-to-z">J</p>
+                <p class="a-to-z">K</p>
+                <p class="a-to-z">L</p>
+            </div>
+            <div class="gap flexRowCenter">
+                <p class="a-to-z">Z</p>
+                <p class="a-to-z">X</p>
+                <p class="a-to-z">C</p>
+                <p class="a-to-z">V</p>
+                <p class="a-to-z">B</p>
+                <p class="a-to-z">N</p>
+                <p class="a-to-z">M</p>
+                <a class="github flexRowCenter" href="https://github.com/zulfidly" target="_blank"><img src="./asset/github-logo.png" alt="github logo" /></a>
+            </div>
+        </section>
+        <div class="infoBoard flexRowCenter">
+            <div class="answers flexRowCenter">
+                <p class="chancesLeftQuote">Chances left :&nbsp;<p class="triesLeft">5</p></p>
+                <p class="lastChanceQuote">Last chance !</p>
+            </div>
+            <a class="answers flexRowCenter" href="./list-all-countries.html" target="_blank">Search for answers</a>
         </div>
-    </section>
-    <div class="infoBoard flexRowCenter">
-        <div class="answers flexRowCenter">
-            <p class="chancesLeftQuote">Chances left :&nbsp;<p class="triesLeft">5</p></p>
-            <p class="lastChanceQuote">Last chance !</p>
-        </div>
-        <a class="answers flexRowCenter" href="./list-all-countries.html" target="_blank">Search for answers</a>
     </div>
 
-</div>
-<div class="tryAgainCtnr"> <p class="niceAttempt">Nice attempt</p>
-    <button class="tryAgainBtn">Continue ? <br>&#128556;</button>
-</div>
-<div class="resumePrevGameCtnr">
-    <p class="welcomeBack">Welcome Back ! </p>
-    <p class="welcomeBack">to</p>
-    <p class="welcomeBack">Guess That Country &#129312;</p>
-    <button class="resumeGameBtn">Resume Game <br></button>
-    <button class="startNewGameBtn">Start New Game<br></button>
-</div>
-<audio class="gameCompleted" src="./asset/gamecomplete.wav"></audio>
-<audio class="wrongGuess" src="./asset/wrongGuess.wav"></audio>
-<audio class="correctGuess" src="./asset/correctGuess.wav"></audio>
-<audio class="gameEnded" src="./asset/gameEnded.wav"></audio>
+    <div class="tryAgainCtnr"> <p class="niceAttempt">Nice attempt</p>
+        <button class="tryAgainBtn">Continue ? <br>&#128556;</button>
+    </div>
+
+    <div class="resumePrevGameCtnr">
+        <p class="welcomeBack">Welcome Back ! </p>
+        <p class="welcomeBack">to</p>
+        <p class="welcomeBack">Guess That Country &#129312;</p>
+        <button class="resumeGameBtn">Resume Game <br></button>
+        <button class="startNewGameBtn">Start New Game<br></button>
+    </div>
+
+    <audio class="gameCompleted" src="./asset/gamecomplete.wav"></audio>
+    <audio class="wrongGuess" src="./asset/wrongGuess.wav"></audio>
+    <audio class="correctGuess" src="./asset/correctGuess.wav"></audio>
+    <audio class="gameEnded" src="./asset/gameEnded.wav"></audio>
 </body>
 </html>

@@ -1,20 +1,6 @@
-let gameSection = document.querySelector(".gameSection")
-let a_to_z = document.querySelectorAll(".a-to-z")
-let tryAgainCtnr = document.querySelector(".tryAgainCtnr")
-let tryAgainBtn = document.querySelector(".tryAgainBtn")
-let triesLeft = document.querySelector(".triesLeft")
-let guessNumberWhat = document.querySelector(".guessNumberWhat")
-let overallScore = document.querySelector(".overallScore")
-let resumePrevGameCtnr = document.querySelector(".resumePrevGameCtnr")
-let resumeGameBtn = document.querySelector(".resumeGameBtn")
-let startNewGameBtn = document.querySelector(".startNewGameBtn")
-
-const ENDPOINT = "https://gist.githubusercontent.com/zulfidly/c9013ce66093dcc0cd594acd17fb5d14/raw/8896c92b3fa07fe8adf131349b27060115645cac/CountriesOfTheWorld";
-
-let oriDataLengthGlobal, dataGlobal;
 window.addEventListener("load", async() => {
     // localStorage.clear();
-    if(localStorage.getItem("localStorage-dataGlobal") && localStorage.getItem("localStorage-PrevGameIndex")) {
+    if(localStorage.getItem("localStorage-dataGlobal")) {
         resumePrevGameCtnr.style.display = "flex"
         addListenerResumeGamePage();
     } else {
@@ -32,11 +18,15 @@ async function fetchFreshData_StartGame() {
     newGame(pickRandomCountry(dataGlobal));
 }
 function prevGameDataIsAvailable() { //check localStorage variables
-        dataGlobal = JSON.parse(localStorage.getItem("localStorage-dataGlobal"))
-        indexOfCountryInDataGlobal = localStorage.getItem("localStorage-PrevGameIndex") * 1;
-        numOfCorrectGuess = localStorage.getItem("localStorage-numOfCorrectGuess") * 1;
-        runningCountsPerAttempt = localStorage.getItem("localStorage-runningCountsPerAttempt") * 1;
-        oriDataLengthGlobal = localStorage.getItem("localStorage-oriDataLengthGlobal") * 1;
+    objResultListGlobal = JSON.parse(localStorage.getItem("localStorage-ResultList"))
+    dataGlobal = JSON.parse(localStorage.getItem("localStorage-dataGlobal"))
+    // indexOfCountryInDataGlobal = localStorage.getItem("localStorage-PrevGameIndex") * 1;
+    numOfCorrectGuess = localStorage.getItem("localStorage-numOfCorrectGuess") * 1;
+    runningCountsPerAttempt = localStorage.getItem("localStorage-runningCountsPerAttempt") * 1;
+    oriDataLengthGlobal = localStorage.getItem("localStorage-oriDataLengthGlobal") * 1;
+    // console.log(objResultListGlobal)
+    // console.log(dataGlobal)
+    displayResulListUponBrowserReload();
 }
 function addListenerResumeGamePage() {
     resumeGameBtn.addEventListener("click", addListenerToResumeButton, {once:true})
@@ -45,7 +35,8 @@ function addListenerResumeGamePage() {
 function addListenerToResumeButton() {
     prevGameDataIsAvailable();
     initQWERTY();
-    newGame(resumeFromLastCountry());
+    loadNewCountry();
+    // newGame(resumeFromLastCountry());
     resumePrevGameCtnr.style.display = "none"
     startNewGameBtn.removeEventListener("click", addListenerToStartNewGameButton);
 }
@@ -55,12 +46,11 @@ function addListenerToStartNewGameButton() {
     resumePrevGameCtnr.style.display = "none";
     resumeGameBtn.removeEventListener("click", addListenerToResumeButton);
 }
-function resumeFromLastCountry() {
-    chosenGlobal = dataGlobal[indexOfCountryInDataGlobal];
-    liveArrWordGlobal = [...chosenGlobal.name.toUpperCase()]
-    return chosenGlobal;
-}
-let objectPicked, letterClicked, indexOfLetterClicked;
+// function resumeFromLastCountry() {
+//     chosenGlobal = dataGlobal[indexOfCountryInDataGlobal];
+//     liveArrWordGlobal = [...chosenGlobal.name.toUpperCase()]
+//     return chosenGlobal;
+// }
 function initQWERTY() {
     tryAgainBtn.addEventListener("click", listenerForContinueButtonOnly)
 
@@ -86,7 +76,6 @@ function bumpLetterOnce() {
     setTimeout(removeBumpLetter, 360)
 }
 
-let numOfChances; 
 function newGame(chosen) {
     numOfChances = 5;
     attachModularListenersToQWERTY();
@@ -120,7 +109,6 @@ function loadNewCountry() {
         return;
     }
 }
-let indexOfCountryInDataGlobal, chosenGlobal, liveArrWordGlobal;
 function pickRandomCountry() {
     if(dataGlobal.length > 0) {
         indexOfCountryInDataGlobal = Math.floor(Math.random() * dataGlobal.length)
@@ -134,23 +122,23 @@ function pickRandomCountry() {
 function storeDataToLocalStorage() {
     console.log(indexOfCountryInDataGlobal)
     console.log(dataGlobal)
-    console.log(numOfCorrectGuess, runningCountsPerAttempt)
-    localStorage.setItem("localStorage-PrevGameIndex", indexOfCountryInDataGlobal.toString())
+    console.log("numOfCorrectGuess:",numOfCorrectGuess, "runningCountsPerAttempt:", runningCountsPerAttempt)
+    // localStorage.setItem("localStorage-PrevGameIndex", indexOfCountryInDataGlobal.toString())
     localStorage.setItem("localStorage-numOfCorrectGuess", numOfCorrectGuess.toString())
     localStorage.setItem("localStorage-runningCountsPerAttempt", runningCountsPerAttempt.toString())
     localStorage.setItem("localStorage-dataGlobal", JSON.stringify(dataGlobal))
     localStorage.setItem("localStorage-oriDataLengthGlobal", oriDataLengthGlobal.toString())
 }
-let runningCountsPerAttempt = 0;
 function renewGameSection() {
-    runningCountsPerAttempt += 1;
     if(dataGlobal.length > 0) {
-        dataGlobal.splice(indexOfCountryInDataGlobal, 1);
-        // console.log("afterSpliced",dataGlobal)
         document.querySelector(".triesLeft").textContent = 5;
-        document.querySelector(".flagContainer").remove();
-        document.querySelector(".letterToGuessCtnr").remove();
-        document.querySelector(".hint").remove();
+        if(document.querySelector(".flagContainer") || document.querySelector(".letterToGuessCtnr") || document.querySelector(".hint")) {
+            document.querySelector(".flagContainer").remove();
+            document.querySelector(".letterToGuessCtnr").remove();
+            document.querySelector(".hint").remove();
+        } else {
+            void(0)
+        }
     } else { void(0);  }
 
     document.querySelectorAll("p.highlightKeyBoard").forEach((x) => {
@@ -174,7 +162,6 @@ function detachModularListenersFromQWERTY() {
     })
 }
 
-let numOfCorrectGuess = 0;
 function checkForMatch() {
         if(liveArrWordGlobal.indexOf(letterClicked) !== -1) {
             void(0);
@@ -188,13 +175,21 @@ function checkForMatch() {
         // if(document.querySelector("p.unGuessed") == null || document.querySelector("p.unGuessed") == undefined) {
         if(!(document.querySelector("p.unGuessed"))) {
             detachModularListenersFromQWERTY();
-            console.log("You guessed Correcttttt")
+            console.log("You guessed Correcttttt");
+            runningCountsPerAttempt += 1;
+            spliceDataGlobalAfterEachGuessAttempt();
+            storeDataToLocalStorage()
             numOfCorrectGuess = numOfCorrectGuess + 1;
             document.querySelector(".gameCompleted").play();
+            updateResultList(true)
             setTimeout(loadNewCountry, 1000)
         } else {
             if(numOfChances == 0) {
-                console.log("You guessed Wrongggg")
+                console.log("You guessed Wrongggg");
+                runningCountsPerAttempt += 1;
+                updateResultList(false)
+                spliceDataGlobalAfterEachGuessAttempt();
+                storeDataToLocalStorage()
                 tryAgainCtnr.style.display = "flex"
                 document.querySelector(".gameEnded").play();
             } else if (numOfChances == 1) {
@@ -204,6 +199,10 @@ function checkForMatch() {
                 document.querySelector(".lastChanceQuote").classList.add("bumpLetter");
             } else { void (0); }    
         }
+}
+function spliceDataGlobalAfterEachGuessAttempt() {
+    dataGlobal.splice(indexOfCountryInDataGlobal, 1);
+    // console.log("afterSpliced",dataGlobal)
 }
 function listenerForContinueButtonOnly() {
     tryAgainCtnr.style.display = "none";
