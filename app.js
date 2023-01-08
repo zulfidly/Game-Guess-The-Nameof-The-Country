@@ -9,6 +9,7 @@ window.addEventListener("load", async() => {
     }
 }, {once:true})
 async function fetchFreshData_StartGame() {
+    localStorage.removeItem("localStorage-ResultList")
     const response = await fetch(ENDPOINT)
     data = await response.json(); // structure response into JSON format
     dataGlobal = data;
@@ -20,12 +21,9 @@ async function fetchFreshData_StartGame() {
 function prevGameDataIsAvailable() { //check localStorage variables
     objResultListGlobal = JSON.parse(localStorage.getItem("localStorage-ResultList"))
     dataGlobal = JSON.parse(localStorage.getItem("localStorage-dataGlobal"))
-    // indexOfCountryInDataGlobal = localStorage.getItem("localStorage-PrevGameIndex") * 1;
     numOfCorrectGuess = localStorage.getItem("localStorage-numOfCorrectGuess") * 1;
     runningCountsPerAttempt = localStorage.getItem("localStorage-runningCountsPerAttempt") * 1;
     oriDataLengthGlobal = localStorage.getItem("localStorage-oriDataLengthGlobal") * 1;
-    // console.log(objResultListGlobal)
-    // console.log(dataGlobal)
     displayResulListUponBrowserReload();
 }
 function addListenerResumeGamePage() {
@@ -36,7 +34,6 @@ function addListenerToResumeButton() {
     prevGameDataIsAvailable();
     initQWERTY();
     loadNewCountry();
-    // newGame(resumeFromLastCountry());
     resumePrevGameCtnr.style.display = "none"
     startNewGameBtn.removeEventListener("click", addListenerToStartNewGameButton);
 }
@@ -46,11 +43,6 @@ function addListenerToStartNewGameButton() {
     resumePrevGameCtnr.style.display = "none";
     resumeGameBtn.removeEventListener("click", addListenerToResumeButton);
 }
-// function resumeFromLastCountry() {
-//     chosenGlobal = dataGlobal[indexOfCountryInDataGlobal];
-//     liveArrWordGlobal = [...chosenGlobal.name.toUpperCase()]
-//     return chosenGlobal;
-// }
 function initQWERTY() {
     tryAgainBtn.addEventListener("click", listenerForContinueButtonOnly)
 
@@ -120,10 +112,10 @@ function pickRandomCountry() {
     } else { return;  }
 }
 function storeDataToLocalStorage() {
-    console.log(indexOfCountryInDataGlobal)
-    console.log(dataGlobal)
-    console.log("numOfCorrectGuess:",numOfCorrectGuess, "runningCountsPerAttempt:", runningCountsPerAttempt)
-    // localStorage.setItem("localStorage-PrevGameIndex", indexOfCountryInDataGlobal.toString())
+    // console.log("-------------------------------store data")
+    // console.log("indexCountry:", indexOfCountryInDataGlobal,"dataLength:", dataGlobal.length)
+    // console.log("dataGlobal", dataGlobal)
+    // console.log("numOfCorrectGuess:",numOfCorrectGuess, "runningCountsPerAttempt:", runningCountsPerAttempt)
     localStorage.setItem("localStorage-numOfCorrectGuess", numOfCorrectGuess.toString())
     localStorage.setItem("localStorage-runningCountsPerAttempt", runningCountsPerAttempt.toString())
     localStorage.setItem("localStorage-dataGlobal", JSON.stringify(dataGlobal))
@@ -171,27 +163,39 @@ function checkForMatch() {
             document.querySelector(".triesLeft").classList.add("bumpLetter")
             setTimeout(removeBumpLetter,350)
         }    
-        // console.log("numOfChances", numOfChances)
-        // if(document.querySelector("p.unGuessed") == null || document.querySelector("p.unGuessed") == undefined) {
         if(!(document.querySelector("p.unGuessed"))) {
+            document.querySelector(".gameCompleted").play();
             detachModularListenersFromQWERTY();
             console.log("You guessed Correcttttt");
             runningCountsPerAttempt += 1;
+            numOfCorrectGuess = numOfCorrectGuess + 1;
             spliceDataGlobalAfterEachGuessAttempt();
             storeDataToLocalStorage()
-            numOfCorrectGuess = numOfCorrectGuess + 1;
-            document.querySelector(".gameCompleted").play();
             updateResultList(true)
-            setTimeout(loadNewCountry, 1000)
+            if(dataGlobal.length > 0) {
+                setTimeout(loadNewCountry, 1000)
+            } else { 
+                document.querySelector(".flagContainer").remove();
+                document.querySelector(".letterToGuessCtnr").remove();
+                document.querySelector(".hint").remove();                                                    
+                finalPage(); 
+            }
         } else {
             if(numOfChances == 0) {
+                document.querySelector(".gameEnded").play();
                 console.log("You guessed Wrongggg");
                 runningCountsPerAttempt += 1;
-                updateResultList(false)
                 spliceDataGlobalAfterEachGuessAttempt();
                 storeDataToLocalStorage()
-                tryAgainCtnr.style.display = "flex"
-                document.querySelector(".gameEnded").play();
+                updateResultList(false)
+                if(dataGlobal.length > 0) {
+                    tryAgainCtnr.style.display = "flex"
+                } else { 
+                    document.querySelector(".flagContainer").remove();
+                    document.querySelector(".letterToGuessCtnr").remove();
+                    document.querySelector(".hint").remove();                                                    
+                    finalPage(); 
+                }
             } else if (numOfChances == 1) {
                 document.querySelector(".chancesLeftQuote").style.display = 'none';
                 document.querySelector(".triesLeft").style.display = 'none';
@@ -315,6 +319,7 @@ function finalPage() {
     gameSection.append(lastQuoteCtnr)
     document.querySelector("h3").remove();
 
+    gameSection.style.width = "390px";
     gameSection.style.backgroundImage = `url(https://upload.wikimedia.org/wikipedia/commons/b/b2/WhiteCat.jpg)`;
     gameSection.style.backgroundRepeat= "no-repeat";
     gameSection.style.backgroundPosition = "center center";

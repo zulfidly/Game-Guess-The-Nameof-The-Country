@@ -15,7 +15,7 @@ function UpdateResultToLocalStorage(htmlstr) {
         displayUpdatedResultList(objResultListJSON)
         let stringified =  JSON.stringify(objResultListJSON)
         localStorage.setItem("localStorage-ResultList", stringified)
-        console.log(objResultListJSON)
+        console.log("resultList", objResultListJSON)
     } else { //for fresh game
         objResultListJSON = []
         let tempobj = {"li" : `${htmlstr}`}
@@ -44,7 +44,7 @@ function displayResulListUponBrowserReload() {
     } else { return }
 }
 
-hamMenuIcon.addEventListener("click", () =>{
+hamMenuIconCtnr.addEventListener("click", () =>{
     console.log("slide")
     slideInPageCtnr.classList.remove("slideOutMenu")
     slideInPageCtnr.classList.add("slideInMenu")

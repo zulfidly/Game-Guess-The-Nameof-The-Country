@@ -9,11 +9,12 @@ let resumePrevGameCtnr = document.querySelector(".resumePrevGameCtnr")
 let resumeGameBtn = document.querySelector(".resumeGameBtn")
 let startNewGameBtn = document.querySelector(".startNewGameBtn")
 let resultListUL = document.querySelector(".resultListUL")
-let hamMenuIcon = document.querySelector(".hamMenuIcon")
+let hamMenuIconCtnr = document.querySelector(".hamMenuIconCtnr")
 let closeMenuIcon = document.querySelector(".closeMenuIcon")
 let slideInPageCtnr = document.querySelector(".slideInPageCtnr")
 
 const ENDPOINT = "https://gist.githubusercontent.com/zulfidly/c9013ce66093dcc0cd594acd17fb5d14/raw/8896c92b3fa07fe8adf131349b27060115645cac/CountriesOfTheWorld";
+// const ENDPOINT = "https://gist.githubusercontent.com/zulfidly/f9c0189f9b94d84f10cb96a132d94aa7/raw/c1865140f9f69dc49f696f14873d23f4ec6b6fbe/shortlist";
 
 let oriDataLengthGlobal, dataGlobal, objResultListGlobal;
 

@@ -33,15 +33,11 @@ body {
     height: auto;
 }
 
-/* .closeMenuIcon {
-    transform: translate(-50%, -50%);
-} */
 .closeMenuIconCtnr {
     width: 92%;
     height: 38px;
     display: flex;
-    justify-content: flex-end;
-    /* border: 1px dotted red; */
+    justify-content: space-between;
 }
 .slideInPageCtnr {
     position: fixed;
@@ -54,11 +50,11 @@ body {
     z-index: 5;
 }
 .resultListUL {
-    margin-left: 25px;
-    /* border: 1px dotted red; */
+    margin-left: 40px;
 }
 .ULctnr{
     height: 95%;
+    width: 100%;
     overflow: auto;
 }
 .mainDiv {
@@ -351,7 +347,8 @@ h3{
         left: 0%;
     }
     .gameSection {
-        width: auto; /*min-width: 700px;*/
+        width: auto;
+        /* min-width: 500px; */
         margin: 10px 0px; /*10px 0px;*/
         padding: 0px 20px 10px 20px;
     }    
