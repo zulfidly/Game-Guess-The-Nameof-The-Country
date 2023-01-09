@@ -112,10 +112,10 @@ function pickRandomCountry() {
     } else { return;  }
 }
 function storeDataToLocalStorage() {
-    // console.log("-------------------------------store data")
+    console.log("------store data------------------")
     // console.log("indexCountry:", indexOfCountryInDataGlobal,"dataLength:", dataGlobal.length)
-    // console.log("dataGlobal", dataGlobal)
-    // console.log("numOfCorrectGuess:",numOfCorrectGuess, "runningCountsPerAttempt:", runningCountsPerAttempt)
+    console.log("dataGlobal", dataGlobal)
+    console.log("numOfCorrectGuess:",numOfCorrectGuess, "runningCountsPerAttempt:", runningCountsPerAttempt)
     localStorage.setItem("localStorage-numOfCorrectGuess", numOfCorrectGuess.toString())
     localStorage.setItem("localStorage-runningCountsPerAttempt", runningCountsPerAttempt.toString())
     localStorage.setItem("localStorage-dataGlobal", JSON.stringify(dataGlobal))
@@ -164,7 +164,6 @@ function checkForMatch() {
             setTimeout(removeBumpLetter,350)
         }    
         if(!(document.querySelector("p.unGuessed"))) {
-            document.querySelector(".gameCompleted").play();
             detachModularListenersFromQWERTY();
             console.log("You guessed Correcttttt");
             runningCountsPerAttempt += 1;
@@ -172,6 +171,7 @@ function checkForMatch() {
             spliceDataGlobalAfterEachGuessAttempt();
             storeDataToLocalStorage()
             updateResultList(true)
+            document.querySelector(".gameCompleted").play();
             if(dataGlobal.length > 0) {
                 setTimeout(loadNewCountry, 1000)
             } else { 
@@ -182,12 +182,12 @@ function checkForMatch() {
             }
         } else {
             if(numOfChances == 0) {
-                document.querySelector(".gameEnded").play();
                 console.log("You guessed Wrongggg");
                 runningCountsPerAttempt += 1;
                 spliceDataGlobalAfterEachGuessAttempt();
                 storeDataToLocalStorage()
                 updateResultList(false)
+                document.querySelector(".gameEnded").play();
                 if(dataGlobal.length > 0) {
                     tryAgainCtnr.style.display = "flex"
                 } else { 

@@ -45,7 +45,7 @@ function displayResulListUponBrowserReload() {
 }
 
 hamMenuIconCtnr.addEventListener("click", () =>{
-    console.log("slide")
+    // console.log("slide")
     slideInPageCtnr.classList.remove("slideOutMenu")
     slideInPageCtnr.classList.add("slideInMenu")
 })
