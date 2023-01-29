@@ -1,10 +1,17 @@
 # Guess That Country
-https://guess-that-country.netlify.app/
+an attempt to design a mini game using HTML, CSS & JavaScript
+<br>
 Web mini game [Guess That Country](https://guess-that-country.netlify.app/)
 <br>
-an attempt to design a mini game using JavaScript <br>
-
 to view brief explanation : https://www.youtube.com/watch?v=GODOeqGMnOU
-
+<br>
 ![This is an image](./asset/thumbnail.jpg)
-![This is an image](https://1drv.ms/u/s!ApFCDuJuHSkDhXwwxWkRSPBiEWhD?e=k1e8cC)
+<br>
+## Features coded
+* use of API consists of 190 countries
+* use of localStorage to enable resumption on browser reload
+##Info
+<br>
+* 1 guess attempt per country
+* guess result are listed in slide in menu
+
