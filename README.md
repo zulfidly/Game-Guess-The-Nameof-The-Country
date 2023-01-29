@@ -10,8 +10,10 @@ to view brief explanation : https://www.youtube.com/watch?v=GODOeqGMnOU
 ## Features coded
 * use of API consists of 190 countries
 * use of localStorage to enable resumption on browser reload
-##Info
+
+<br>
+## Info
 <br>
 * 1 guess attempt per country
-* guess result are listed in slide in menu
+* guess results are listed in slide in menu
 
