@@ -10,9 +10,9 @@ to view brief explanation : https://www.youtube.com/watch?v=GODOeqGMnOU
 ## Features coded
 * use of API consists of 190 countries
 * use of localStorage to enable resumption on browser reload
-<br>
-## Info
-<br>
+
+## Game rules
 * 1 guess attempt per country
+* 5 chances of guess attempts (4 wrong guesses maximum)
 * guess results are listed in slide in menu
 
