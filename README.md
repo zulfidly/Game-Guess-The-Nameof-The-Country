@@ -10,7 +10,6 @@ to view brief explanation : https://www.youtube.com/watch?v=GODOeqGMnOU
 ## Features coded
 * use of API consists of 190 countries
 * use of localStorage to enable resumption on browser reload
-
 <br>
 ## Info
 <br>
