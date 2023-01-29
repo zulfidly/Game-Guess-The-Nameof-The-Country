@@ -6,5 +6,5 @@ an attempt to design a mini game using JavaScript <br>
 
 to view brief explanation : https://www.youtube.com/watch?v=GODOeqGMnOU
 
-![This is an image](https://1drv.ms/u/s!ApFCDuJuHSkDhXwwxWkRSPBiEWhD?e=W4ja9S)
+![This is an image](./asset/thumbnail.jpg)
 ![This is an image](https://1drv.ms/u/s!ApFCDuJuHSkDhXwwxWkRSPBiEWhD?e=k1e8cC)
