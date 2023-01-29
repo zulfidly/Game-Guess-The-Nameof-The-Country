@@ -10,6 +10,7 @@ to view brief explanation : https://www.youtube.com/watch?v=GODOeqGMnOU
 ## Features coded
 * use of API consists of 190 countries
 * use of localStorage to enable resumption on browser reload
+* internal JSON generated to store the results list
 
 ## Game rules
 * 1 guess attempt per country
